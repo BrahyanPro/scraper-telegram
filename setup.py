@@ -20,6 +20,7 @@ def banner():
 	{re}╔═╗{cy}┌─┐┌┬┐┬ ┬┌─┐
 	{re}╚═╗{cy}├┤  │ │ │├─┘
 	{re}╚═╝{cy}└─┘ ┴ └─┘┴
+	Scraping{re} v1.0{cy} code by : {re}BrahyanKing
 	""")
 
 def requirements():

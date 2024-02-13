@@ -1,9 +1,9 @@
 #!/bin/env python3
-# code by : youtube.com/theunknon
+# code by : BrahyanKing
 
 """
 
-you can re run setup.py 
+you can re run setup.py
 if you have added some wrong value
 
 """
@@ -109,12 +109,12 @@ try:
 	elif any ([sys.argv[1] == '--help', sys.argv[1] == '-h']):
 		banner()
 		print("""$ python3 setup.py -m file1.csv file2.csv
-			
+
 	( --config  / -c ) setup api configration
-	( --merge   / -m ) merge 2 .csv files in one 
+	( --merge   / -m ) merge 2 .csv files in one
 	( --update  / -u ) update tool to latest version
 	( --install / -i ) install requirements
-	( --help    / -h ) show this msg 
+	( --help    / -h ) show this msg
 			""")
 	else:
 		print('\n'+gr+'['+re+'!'+gr+']'+cy+' unknown argument : '+ sys.argv[1])

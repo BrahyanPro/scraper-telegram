@@ -9,15 +9,16 @@ import json
 import random
 import time
 
-re="\033[1;31m"
-gr="\033[1;32m"
-cy="\033[1;36m"
+re = "\033[1;31m"
+gr = "\033[1;32m"
+cy = "\033[1;36m"
 SLEEP_TIME = 30
+
 
 class main():
 
     def banner():
-        
+
         print(f"""
     {re}╔╦╗{cy}┌─┐┬  ┌─┐{re}╔═╗  ╔═╗{cy}┌─┐┬─┐┌─┐┌─┐┌─┐┬─┐
     {re} ║ {cy}├┤ │  ├┤ {re}║ ╦  ╚═╗{cy}│  ├┬┘├─┤├─┘├┤ ├┬┘
@@ -37,64 +38,78 @@ class main():
         except KeyError:
             os.system('clear')
             main.banner()
-            print(re+"[!] run python3 setup.py first !!\n")
+            print(re + "[!] run python3 setup.py first !!\n")
             sys.exit(1)
 
         client = TelegramClient(phone, api_id, api_hash)
-         
+
         client.connect()
         if not client.is_user_authorized():
             client.send_code_request(phone)
             os.system('clear')
             main.banner()
-            client.sign_in(phone, input(gr+'[+] Enter the code: '+re))
-        
+            client.sign_in(phone, input(gr + '[+] Enter the code: ' + re))
+
         os.system('clear')
         main.banner()
-        input_file = sys.argv[1]
+        input_file = "members.json"
         users = []
-        with open(input_file, encoding='UTF-8') as f:
-            rows = csv.reader(f,delimiter=",",lineterminator="\n")
-            next(rows, None)
-            for row in rows:
-                user = {}
-                user['username'] = row[0]
-                user['id'] = int(row[1])
-                user['access_hash'] = int(row[2])
-                user['name'] = row[3]
-                users.append(user)
-        print(gr+"[1] send sms by user ID\n[2] send sms by username ")
-        mode = int(input(gr+"Input : "+re))
-         
-        message = input(gr+"[+] Enter Your Message : "+re)
-         
+        with open(input_file, "r", encoding='UTF-8') as f:
+            users_data = json.load(f)
+            seen = set()
+            for user in users_data:
+                if user['username'] not in seen:
+                    seen.add(user['username'])
+                    users.append(user)
+        print(gr + "[+] Enviandole propaganda a personas de la lista...")
+
+        website_url = "https://www.quisqueyajobs.com/"
+        instagram_url = "https://www.instagram.com/quisqueyajobs"
+        twitter_url = "https://twitter.com/quisqueyajobs"
+
+        message = f"""🌟**Imagina un futuro donde cada paso en tu carrera o la búsqueda de tu equipo ideal está alineado con tus sueños.** Ese futuro empieza con QuisqueyaJobs. 
+
+💡 "Si buscas empleo o personal, QuisqueyaJobs es tu oportunidad." Una oportunidad de conectar, de crecer, de alcanzar esos objetivos que parecían distantes. 
+
+ 🚀 **Únete a nuestra lista de espera** y sé parte de los pioneros que transformarán el panorama laboral de República Dominicana. Aquí, el futuro no es algo que esperas, es algo que creas.
+
+ 📲 **Conéctate con nosotros** en Instagram y Twitter. Inspírate con historias de éxito, consejos y una comunidad que ve más allá del horizonte.
+
+ 🔗 **Descubre más en {website_url}**. El lugar donde tu próximo gran paso te espera. Instagram: {instagram_url} | Twitter: {twitter_url}
+
+ **QuisqueyaJobs:** No solo es una plataforma; es un movimiento. ¿Listo para moverte con nosotros hacia un futuro lleno de posibilidades?"""
         for user in users:
-            if mode == 2:
-                if user['username'] == "":
-                    continue
+            print(user)
+            if user['username'] != "":
                 receiver = client.get_input_entity(user['username'])
-            elif mode == 1:
-                receiver = InputPeerUser(user['id'],user['access_hash'])
             else:
-                print(re+"[!] Invalid Mode. Exiting.")
-                client.disconnect()
-                sys.exit()
+                receiver = InputPeerUser(user['user_id'], user['access_hash'])
+
             try:
-                print(gr+"[+] Sending Message to:", user['name'])
+                print(gr + "[+] Sending Message to:", user['name'])
                 client.send_message(receiver, message.format(user['name']))
-                print(gr+"[+] Waiting {} seconds".format(SLEEP_TIME))
+                print(gr + "[+] Waiting {} seconds".format(SLEEP_TIME))
                 time.sleep(SLEEP_TIME)
             except PeerFloodError:
-                print(re+"[!] Getting Flood Error from telegram. \n[!] Script is stopping now. \n[!] Please try again after some time.")
+                print(
+                    re + "[!] Getting Flood Error from telegram. \n[!] Script is stopping now. \n[!] Please try again after some time.")
                 client.disconnect()
                 sys.exit()
             except Exception as e:
-                print(re+"[!] Error:", e)
-                print(re+"[!] Trying to continue...")
+                print(re + "[!] Error:", e)
+                print(re + "[!] Trying to continue...")
                 continue
         client.disconnect()
         print("Done. Message sent to all users.")
 
 
-
 main.send_sms()
+
+# {
+#     "username": "",
+#     "user_id": 806385098,
+#     "access_hash": -7025699338209073182,
+#     "name": "Tu Empleo RD ",
+#     "group": "Tu Empleo RD",
+#     "group_id": 1139496450
+# },

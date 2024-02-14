@@ -73,6 +73,7 @@ result = client(GetDialogsRequest(
 chats.extend(result.chats)
 
 for chat in chats:
+    print(chat)
     try:
         if chat.megagroup== True:
             groups.append(chat)

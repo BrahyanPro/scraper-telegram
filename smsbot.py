@@ -94,7 +94,7 @@ class main():
             count += 1
             if count == 15:
                 print(gr + "[+] Esperando 40 segundos para enviar más mensajes")
-                asyncio.sleep(40)
+                await asyncio.sleep(40)
                 count = 0
             try:
               user_id = user['user_id']

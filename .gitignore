@@ -1,0 +1,6 @@
+.idea
+.image
+.venv
+members.csv
+.members.json
+*.session

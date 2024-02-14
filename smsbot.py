@@ -58,8 +58,8 @@ class main():
             users_data = json.load(f)
             seen = set()
             for user in users_data:
-                if user['username'] not in seen:
-                    seen.add(user['username'])
+                if user['user_id'] not in seen:
+                    seen.add(user['user_id'])
                     users.append(user)
         print(gr + "[+] Enviandole propaganda a personas de la lista...")
 

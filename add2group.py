@@ -91,29 +91,19 @@ target_group=groups[int(g_index)]
 print(gr+"[+] Fetching Members...")
 target_group_entity = InputPeerChannel(target_group.id,target_group.access_hash)
 
-print(gr+"[1] add member by user ID\n[2] add member by username ")
-mode = int(input(gr+"Input : "+re))
 n = 0
 
-print(gr+"[+] Adding Members to Group...")
+print(gr+"[+] Adding Members to Group BrahyanPro was here...")
 
 for user in users:
     n += 1
     if n % 50 == 0:
-      time.sleep(1)
+      time.sleep(20)
     try:
-        print ("Adding {}".format(user['username']))
-        if mode == 1:
-            if user['username'] == "":
-                continue
-            user_to_add = client.get_input_entity(user['username'])
-            print(user_to_add)
-        elif mode == 2:
-            user_to_add = InputPeerUser(user['user_id'], user['access_hash'])
-        else:
-            sys.exit(re+"[!] Invalid Mode Selected. Please Try Again.")
-        client(InviteToChannelRequest(target_group_entity,[user_to_add]))
-        print(gr+"[+] Waiting for 5-10 Seconds...")
+        print ("Adding {}".format(user['user_id']))
+        user_to_add = InputPeerUser(user['user_id'], user['access_hash'])
+        client(InviteToChannelRequest(target_group_entity, [user_to_add]))
+        print(gr+"[+] Espera entre 5-10 segundos...")
         time.sleep(random.randrange(5, 10))
     except PeerFloodError:
         print(re+"[!] Getting Flood Error from telegram. \n[!] Script is stopping now. \n[!] Please try again after some time.")
